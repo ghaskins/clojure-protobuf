@@ -10,6 +10,8 @@ Add the dependency to your project.clj
 Assuming you have the following in `resources/proto/person.proto`:
 
 ```proto
+option java_outer_classname = "Example";
+
 message Person {
   required int32  id    = 1;
   required string name  = 2;
@@ -20,7 +22,7 @@ message Person {
 
 Compile the proto using the protobuf compiler and include the resulting .java code in your project
 
-    protoc --java_out=./ -proto_dir=resources/proto person.proto
+    protoc --java_out=java -I=resources/proto resources/proto/person.proto
 
 Now you can use the protocol buffer in Clojure:
 
@@ -33,7 +35,7 @@ Now you can use the protocol buffer in Clojure:
 (def p (protobuf Person :id 4 :name "Bob" :email "bob@example.com"))
 => {:id 4, :name "Bob", :email "bob@example.com"}
 
-(assoc p :name "Bill"))
+(assoc p :name "Bill")
 => {:id 4, :name "Bill", :email "bob@example.com"}
 
 (assoc p :likes ["climbing" "running" "jumping"])
